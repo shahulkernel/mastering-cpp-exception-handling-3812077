@@ -4,13 +4,18 @@
 
 using namespace std;
 
-const string readConfigFile(const string& filename) 
+const string readConfigFile(const string &filename)
 {
     ifstream file(filename);
 
+    if (!file.good())
+    {
+        throw runtime_error("file notfound!!");
+    }
+
     string line;
     string text;
-    while (getline(file, line)) 
+    while (getline(file, line))
     {
         text += line;
         text += '\n';
@@ -19,12 +24,18 @@ const string readConfigFile(const string& filename)
     return text;
 }
 
-int main() 
-{    
+int main()
+{
     cout << "Reading configuration:" << endl;
-    string text = readConfigFile("configuration.txt");
-    cout << text;
-    
+    try
+    {
+        string text = readConfigFile("configuration.txt");
+        cout << text;
+    }
+    catch (const std::exception &e)
+    {
+        cerr << "error " << e.what() << endl;
+    }
+
     return 0;
 }
-
